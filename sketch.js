@@ -63,3 +63,8 @@ function mousePressed() {
     angleMode(DEGREES);
     shootingbubble[0].targeting(atan2(mouseY - height, mouseX - width / 2));
 }
+
+function touchStart(){
+    angleMode(DEGREES);
+    shootingbubble[0].targeting(atan2(mouseY - height, mouseX - width / 2));
+}
