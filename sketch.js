@@ -8,7 +8,7 @@ var bubbls = [],
 
 
 function setup() {
-    createCanvas(683, 414);
+    createCanvas(683, Window.Height);
     for (let i = 0; i < chances; i++) {
         var index = round(random(2));
         shootingbubble.push(new MovingBubble(width / 2, height, colors[index])); 
