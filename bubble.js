@@ -94,10 +94,10 @@ class MovingBubble extends Bubble {
             this.xPos = width - this.radious;
             this.angel = atan2(sin(this.angel), cos(this.angel) * -1);
         }
-
         if (this.yPos - this.radious < 0) {
             this.yPos = this.radious;
             this.isMoving = false;
+            shootingbubble.shift();
         } else if (this.yPos + this.radious > height) {
             this.yPos = height - this.radious * 2;
         }
@@ -114,78 +114,68 @@ class MovingBubble extends Bubble {
             var d = dist(this.xPos, this.yPos, other.xPos, other.yPos);
             if (d < this.radious * 2) {
                 this.isMoving = false;
+                shootingbubble.shift();
                 this.shouldRemove(other);
-                // create a static bubble with bottom formula
             }
         });
 
     }
     shouldRemove(other) {
         if (other.fill == this.fill) {
-            delete bubbls[other.arreyPos];
             this.recNeibourremove(other);
-            shootingbubble.shift();
+        }
+        else{
+            console.log(other.angel);
+            // bubbls.push(new StaticBubble(other.xPos, other.yPos + 32, this.fill, other.arreyPos + int(width / 32)));
         }
     }
 
     recNeibourremove(other) {
-        var t, b, l, r, br, bl, tr, tl;
-        if (other.Naibour.Top != undefined || other.Naibour.Top != null) {
-            t = other.Naibour.Top;
-            delete bubbls[other.Naibour.Top.arreyPos];
-        }
-        if (other.Naibour.Left != undefined || other.Naibour.Left != null) {
-            l = other.Naibour.Left;
-            delete bubbls[other.Naibour.Left.arreyPos];
-        }
-        if (other.Naibour.Right != undefined || other.Naibour.Rigth != null) {
-            r = other.Naibour.Right;
-            delete bubbls[other.Naibour.Right.arreyPos];
-        }
-        if (other.Naibour.Bottom_Right != undefined || other.Naibour.Bottom_Right != null) {
-            br = other.Naibour.Bottom_Right;
-            delete bubbls[other.Naibour.Bottom_Right.arreyPos];
-        }
-        if (other.Naibour.Bottom_Left != undefined || other.Naibour.Bottom_Left != null) {
-            bl = other.Naibour.Bottom_Left;
-            delete bubbls[other.Naibour.Bottom_Left.arreyPos];
-        }
-        if (other.Naibour.Top_Right != undefined || other.Naibour.Top_Right != null) {
-            tr = other.Naibour.Top_Right;
-            delete bubbls[other.Naibour.Top_Right.arreyPos];
-        }
-        if (other.Naibour.Top_Left != undefined || other.Naibour.Top_Left != null) {
-            tl = other.Naibour.Top_Left;
-            delete bubbls[other.Naibour.Top_Left.arreyPos];
-        }
-
-        console.log(t, b, l, r, br, bl, tr, tl);
-
-        if(t != undefined){
-            this.recNeibourremove(t);
-        }
-        if(b != undefined){
-            this.recNeibourremove(b);
-        }
-        if(l != undefined){
-            this.recNeibourremove(l);
-        }
-        if(r != undefined){
-            this.recNeibourremove(r);
-        }
-
-        
-        if(tr != undefined){
-            this.recNeibourremove(tr);
-        }
-        if(tl != undefined){
-            this.recNeibourremove(tl);
-        }
-        if(br != undefined){
-            this.recNeibourremove(br);
-        }
-        if(bl != undefined){
-            this.recNeibourremove(bl);
+        var naibours = other.Naibour;
+        delete bubbls[other.arreyPos];
+        if (Object.keys(naibours).length < 0) {
+            return;
+        } else {
+            if (naibours.Top != undefined) {
+                if (bubbls[naibours.Top.arreyPos] != undefined || bubbls[naibours.Top.arreyPos] != null) {
+                    this.recNeibourremove(naibours.Top);
+                }
+            }
+            if (naibours.Bottom != undefined) {
+                if (bubbls[naibours.Bottom.arreyPos] != undefined || bubbls[naibours.Bottom.arreyPos] != null) {
+                    this.recNeibourremove(naibours.Bottom);
+                }
+            }
+            if (naibours.Left != undefined) {
+                if (bubbls[naibours.Left.arreyPos] != undefined || bubbls[naibours.Left.arreyPos] != null) {
+                    this.recNeibourremove(naibours.Left);
+                }
+            }
+            if (naibours.Right != undefined) {
+                if (bubbls[naibours.Right.arreyPos] != undefined || bubbls[naibours.Right.arreyPos] != null) {
+                    this.recNeibourremove(naibours.Right);
+                }
+            }
+            if(naibours.Top_Left != undefined){
+                if(bubbls[naibours.Top_Left.arreyPos] != undefined || bubbls[naibours.Top_Left.arreyPos] != null){
+                    this.recNeibourremove(naibours.Top_Left);
+                }
+            }
+            if(naibours.Top_Right != undefined){
+                if(bubbls[naibours.Top_Right.arreyPos] != undefined || bubbls[naibours.Top_Right.arreyPos] != null){
+                    this.recNeibourremove(naibours.Top_Right);
+                }
+            }
+            if(naibours.Bottom_Left != undefined){
+                if(bubbls[naibours.Bottom_Left.arreyPos] != undefined || bubbls[naibours.Bottom_Left.arreyPos] != null){
+                    this.recNeibourremove(naibours.Bottom_Left);
+                }
+            }
+            if(naibours.Bottom_Right != undefined){
+                if(bubbls[naibours.Bottom_Right.arreyPos] != undefined || bubbls[naibours.Bottom_Right.arreyPos] != null){
+                    this.recNeibourremove(naibours.Bottom_Right);
+                }
+            }
         }
     }
 }
